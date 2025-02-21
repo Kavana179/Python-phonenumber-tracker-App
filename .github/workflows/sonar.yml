@@ -1,0 +1,41 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  sonarcloud:
+    name: Run SonarCloud Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install coverage pytest
+
+      - name: Run tests and generate coverage report
+        run: |
+          coverage run -m pytest
+          coverage xml  # This generates coverage.xml file
+
+      - name: Run SonarCloud Analysis
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          sonar-project-key: Kavana179_Python-phonenumber-tracker-App
+          sonar-organization: kavana179
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
