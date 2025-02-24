@@ -46,7 +46,7 @@ jobs:
           sonar-scanner \
             -Dsonar.projectKey=Kavana179_Python-phonenumber-tracker-App \
             -Dsonar.organization=kavana179 \
-            -Dsonar.sources=.vscode  # Point to your source directory here (adjust path if needed)
+            -Dsonar.sources=app.py  # Point to your source directory here (adjust path if needed)
             -Dsonar.language=python  # Explicitly set the language to Python
             -Dsonar.python.coverage.reportPaths=coverage.xml  # Path to the coverage report
             -Dsonar.python.version=3.9  # Set the exact Python version you're using
