@@ -37,6 +37,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Reference the token from GitHub secrets
         run: |
           sonar-scanner \
-            -Dsonar.projectKey=your_project_key \
-            -Dsonar.organization=your_organization_key \
+            -Dsonar.projectKey=Kavana179_Python-phonenumber-tracker-App \
+            -Dsonar.organization=kavana179\
             -Dsonar.sources=./src  # Specify the source directory for your Python project (usually ./src or .)
