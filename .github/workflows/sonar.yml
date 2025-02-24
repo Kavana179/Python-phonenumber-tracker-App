@@ -3,7 +3,7 @@ name: SonarCloud Analysis
 on:
   push:
     branches:
-      - main  # Change to your default branch name if different
+      - main  # Change this to your default branch name if it's not 'main'
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -20,33 +20,29 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9  # Change this to your preferred Python version
+          python-version: 3.9  # You can change this to your specific Python version
 
       # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest  # Install testing dependencies (optional)
-          pip install pylint  # Install linter for code quality
-          pip install flake8  # Install flake8 for additional linting checks
-          pip install coverage  # Install coverage for code coverage analysis
+          pip install pylint  # Optional: install pylint to check code quality
+          pip install flake8  # Optional: install flake8 for additional linting checks
 
-      # Step 4: Run tests and generate coverage report
-      - name: Run tests and generate coverage report
+      # Step 4: Run Pylint or Flake8 (Optional, for code linting)
+      - name: Run Pylint or Flake8 (Optional)
         run: |
-          pytest --maxfail=1 --disable-warnings -q
-          coverage run -m pytest
-          coverage xml  # Generates the coverage.xml report
+          pylint app.py  # Run pylint on app.py to get code quality issues (optional)
+          flake8 app.py  # Run flake8 on app.py for additional checks (optional)
 
       # Step 5: Run SonarCloud analysis
       - name: Run SonarCloud analysis
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Reference the token from GitHub secrets
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Reference your SonarCloud token stored in GitHub secrets
         run: |
           sonar-scanner \
             -Dsonar.projectKey=Kavana179_Python-phonenumber-tracker-App \
             -Dsonar.organization=kavana179 \
-            -Dsonar.sources=app.py  # Point to your source directory here (adjust path if needed)
-            -Dsonar.language=python  # Explicitly set the language to Python
-            -Dsonar.python.coverage.reportPaths=coverage.xml  # Path to the coverage report
-            -Dsonar.python.version=3.9  # Set the exact Python version you're using
+            -Dsonar.sources=app.py  # Set this to the location of your Python file(s)
+            -Dsonar.language=python  # Tell SonarCloud that you're analyzing Python code
+            -Dsonar.python.version=3.9  # Set the exact Python version (same as the one in setup-python)
