@@ -3,7 +3,7 @@ name: SonarCloud Analysis
 on:
   push:
     branches:
-      - main  # Change this to your default branch name if it's not 'main'
+      - master  # Change this to your default branch name if it's not 'main'
   pull_request:
     types: [opened, synchronize, reopened]
 
